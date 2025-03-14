@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KL - Serviços</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="./CSS/common.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Spinner para carregamentos -->
+    <div class="spinner-overlay" id="spinner-overlay">
+        <div class="spinner"></div>
+    </div>
+    
+    <!-- Container de alertas -->
+    <div class="alert-container" id="alert-container"></div>
+    
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <h3>Kauan Lauer Tech</h3>
+        </div>
+        <div class="sidebar-menu">
+            <div class="menu-item" data-page="dashboard">
+                <i class="fas fa-tachometer-alt"></i>
+                <span>Dashboard</span>
+            </div>
+            <div class="menu-item" data-page="clientes">
+                <i class="fas fa-users"></i>
+                <span>Clientes</span>
+            </div>
+            <div class="menu-item active" data-page="servicos">
+                <i class="fas fa-cogs"></i>
+                <span>Serviços</span>
+            </div>
+            <div class="menu-item" data-page="ordens">
+                <i class="fas fa-clipboard-list"></i>
+                <span>Ordens de Serviço</span>
+            </div>
+            <div class="menu-item" data-page="garantias">
+                <i class="fas fa-shield-alt"></i>
+                <span>Garantias</span>
+            </div>
+            <div class="menu-item" data-page="financeiro">
+                <i class="fas fa-chart-line"></i>
+                <span>Financeiro</span>
+            </div>
+            <div class="menu-item" data-page="relatorios">
+                <i class="fas fa-file-alt"></i>
+                <span>Relatórios</span>
+            </div>
+            <div class="menu-item" data-page="configuracoes">
+                <i class="fas fa-cog"></i>
+                <span>Configurações</span>
+            </div>
+        </div>
+    </div>
+    
+    <div class="main-content">
+        <div class="top-bar">
+            <div class="mobile-toggle">
+                <i class="fas fa-bars"></i>
+            </div>
+            <h2 id="page-title">Serviços</h2>
+            <div class="user-info">
+                <img src="https://cdn-icons-png.flaticon.com/512/3682/3682323.png" alt="User">
+                <span>Kauan Lauer</span>
+            </div>
+        </div>
+        
+        <div class="filter-container">
+            <div class="filter-item">
+                <label for="filtro-categoria">Categoria</label>
+                <select id="filtro-categoria" class="form-control">
+                    <option value="">Todas</option>
+                    <option value="Formatação">Formatação</option>
+                    <option value="Instalação Windows">Instalação Windows</option>
+                    <option value="Limpeza">Limpeza</option>
+                    <option value="Instalação Software">Instalação Software</option>
+                    <option value="Criação Site">Criação Site</option>
+                    <option value="Criação Sistema">Criação Sistema</option>
+                    <option value="Manutenção">Manutenção</option>
+                    <option value="Outros">Outros</option>
+                </select>
+            </div>
+            
+            <div class="filter-item">
+                <label for="filtro-situacao">Situação</label>
+                <select id="filtro-situacao" class="form-control">
+                    <option value="">Todas</option>
+                    <option value="Ativo">Ativo</option>
+                    <option value="Inativo">Inativo</option>
+                </select>
+            </div>
+            
+            <div class="filter-item">
+                <label>&nbsp;</label>
+                <button id="btn-filtrar" class="btn btn-primary">Filtrar</button>
+            </div>
+        </div>
+        
+        <div class="page-header">
+            <h3>Gerenciamento de Serviços</h3>
+            <button class="btn btn-primary" id="btn-novo-servico">
+                <i class="fas fa-plus"></i> Novo Serviço
+            </button>
+        </div>
+        
+        <div class="search-container">
+            <input type="text" id="search-servico" placeholder="Buscar por nome, categoria...">
+            <button class="btn-search" id="btn-search-servico">
+                <i class="fas fa-search"></i>
+            </button>
+        </div>
+        
+        <div class="card">
+            <div class="card-body">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nome</th>
+                            <th>Categoria</th>
+                            <th>Descrição</th>
+                            <th>Preço (R$)</th>
+                            <th>Garantia (dias)</th>
+                            <th>Situação</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="servicos-table">
+                        <tr>
+                            <td colspan="8" class="text-center">Carregando serviços...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="pagination" id="servicos-pagination"></div>
+        </div>
+    </div>
+    
+    <!-- Modal de Serviço -->
+    <div class="modal" id="servico-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="servico-modal-title">Novo Serviço</h3>
+                <span class="modal-close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="servico-form">
+                    <input type="hidden" id="servico-id">
+                    
+                    <div class="form-group">
+                        <label for="servico-nome">Nome do Serviço *</label>
+                        <input type="text" id="servico-nome" class="form-control" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="servico-categoria">Categoria *</label>
+                        <select id="servico-categoria" class="form-control" required>
+                            <option value="">Selecione</option>
+                            <option value="Formatação">Formatação</option>
+                            <option value="Instalação Windows">Instalação Windows</option>
+                            <option value="Limpeza">Limpeza</option>
+                            <option value="Instalação Software">Instalação Software</option>
+                            <option value="Criação Site">Criação Site</option>
+                            <option value="Criação Sistema">Criação Sistema</option>
+                            <option value="Manutenção">Manutenção</option>
+                            <option value="Outros">Outros</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="servico-descricao">Descrição</label>
+                        <textarea id="servico-descricao" class="form-control" rows="3"></textarea>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="servico-preco">Preço Padrão (R$) *</label>
+                            <input type="number" id="servico-preco" class="form-control" min="0" step="0.01" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="servico-tempo">Tempo Estimado (horas)</label>
+                            <input type="number" id="servico-tempo" class="form-control" min="0" step="0.5">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="servico-garantia">Período de Garantia (dias)</label>
+                        <input type="number" id="servico-garantia" class="form-control" min="0">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="servico-situacao">Situação</label>
+                        <select id="servico-situacao" class="form-control">
+                            <option value="Ativo">Ativo</option>
+                            <option value="Inativo">Inativo</option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary modal-close">Cancelar</button>
+                <button class="btn btn-primary" id="btn-save-servico">Salvar</button>
+            </div>
+        </div>
+    </div>
+    
+    <script src="./JS/Cad_Servicos.js"></script>
+</body>
+</html>

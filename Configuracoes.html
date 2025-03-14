@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KL - Configurações</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="./CSS/common.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Spinner para carregamentos -->
+    <div class="spinner-overlay" id="spinner-overlay">
+        <div class="spinner"></div>
+    </div>
+    
+    <!-- Container de alertas -->
+    <div class="alert-container" id="alert-container"></div>
+    
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <h3>Kauan Lauer Tech</h3>
+        </div>
+        <div class="sidebar-menu">
+            <div class="menu-item" data-page="dashboard">
+                <i class="fas fa-tachometer-alt"></i>
+                <span>Dashboard</span>
+            </div>
+            <div class="menu-item" data-page="clientes">
+                <i class="fas fa-users"></i>
+                <span>Clientes</span>
+            </div>
+            <div class="menu-item" data-page="servicos">
+                <i class="fas fa-cogs"></i>
+                <span>Serviços</span>
+            </div>
+            <div class="menu-item" data-page="ordens">
+                <i class="fas fa-clipboard-list"></i>
+                <span>Ordens de Serviço</span>
+            </div>
+            <div class="menu-item" data-page="garantias">
+                <i class="fas fa-shield-alt"></i>
+                <span>Garantias</span>
+            </div>
+            <div class="menu-item" data-page="financeiro">
+                <i class="fas fa-chart-line"></i>
+                <span>Financeiro</span>
+            </div>
+            <div class="menu-item" data-page="relatorios">
+                <i class="fas fa-file-alt"></i>
+                <span>Relatórios</span>
+            </div>
+            <div class="menu-item active" data-page="configuracoes">
+                <i class="fas fa-cog"></i>
+                <span>Configurações</span>
+            </div>
+        </div>
+    </div>
+    
+    <div class="main-content">
+        <div class="top-bar">
+            <div class="mobile-toggle">
+                <i class="fas fa-bars"></i>
+            </div>
+            <h2 id="page-title">Configurações</h2>
+            <div class="user-info">
+                <img src="https://cdn-icons-png.flaticon.com/512/3682/3682323.png" alt="User">
+                <span>Kauan Lauer</span>
+            </div>
+        </div>
+        
+        <div class="config-tabs">
+            <div class="config-tab active" data-tab="geral">
+                <i class="fas fa-cogs"></i> Geral
+            </div>
+            <div class="config-tab" data-tab="empresa">
+                <i class="fas fa-building"></i> Dados da Empresa
+            </div>
+            <div class="config-tab" data-tab="usuarios">
+                <i class="fas fa-users-cog"></i> Usuários
+            </div>
+            <div class="config-tab" data-tab="backup">
+                <i class="fas fa-database"></i> Backup e Restauração
+            </div>
+            <div class="config-tab" data-tab="categorias">
+                <i class="fas fa-tags"></i> Categorias
+            </div>
+        </div>
+        
+        <!-- Configurações Gerais -->
+        <div class="config-content active" id="geral-content">
+            <div class="card">
+                <div class="card-header">
+                    <h3>Configurações Gerais</h3>
+                </div>
+                <div class="card-body">
+                    <form id="config-geral-form">
+                        <div class="form-group">
+                            <label for="config-idioma">Idioma</label>
+                            <select id="config-idioma" class="form-control">
+                                <option value="pt-BR" selected>Português (Brasil)</option>
+                                <option value="en-US">English (United States)</option>
+                                <option value="es">Español</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="config-tema">Tema</label>
+                            <select id="config-tema" class="form-control">
+                                <option value="light" selected>Claro</option>
+                                <option value="dark">Escuro</option>
+                                <option value="system">Sistema</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="config-itens-pagina">Itens por Página</label>
+                            <select id="config-itens-pagina" class="form-control">
+                                <option value="10" selected>10</option>
+                                <option value="25">25</option>
+                                <option value="50">50</option>
+                                <option value="100">100</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="config-formato-data">Formato de Data</label>
+                            <select id="config-formato-data" class="form-control">
+                                <option value="dd/mm/yyyy" selected>DD/MM/AAAA</option>
+                                <option value="mm/dd/yyyy">MM/DD/AAAA</option>
+                                <option value="yyyy-mm-dd">AAAA-MM-DD</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="config-formato-moeda">Formato de Moeda</label>
+                            <select id="config-formato-moeda" class="form-control">
+                                <option value="BRL" selected>R$ (Real Brasileiro)</option>
+                                <option value="USD">$ (Dólar Americano)</option>
+                                <option value="EUR">€ (Euro)</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Notificações</label>
+                            <div class="checkbox-container">
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="config-notif-email" checked>
+                                    <label for="config-notif-email">E-mail</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="config-notif-sistema" checked>
+                                    <label for="config-notif-sistema">Sistema</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="config-notif-browser">
+                                    <label for="config-notif-browser">Navegador</label>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-actions">
+                            <button type="button" class="btn btn-primary" id="btn-save-config-geral">Salvar Configurações</button>
+                            <button type="button" class="btn btn-secondary" id="btn-reset-config-geral">Restaurar Padrões</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Dados da Empresa -->
+        <div class="config-content" id="empresa-content">
+            <div class="card">
+                <div class="card-header">
+                    <h3>Dados da Empresa</h3>
+                </div>
+                <div class="card-body">
+                    <form id="config-empresa-form">
+                        <div class="form-group">
+                            <label for="empresa-nome">Nome da Empresa *</label>
+                            <input type="text" id="empresa-nome" class="form-control" value="Kauan Lauer Tech">
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="empresa-cnpj">CNPJ</label>
+                                <input type="text" id="empresa-cnpj" class="form-control" placeholder="00.000.000/0000-00">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="empresa-ie">Inscrição Estadual</label>
+                                <input type="text" id="empresa-ie" class="form-control">
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="empresa-endereco">Endereço</label>
+                            <input type="text" id="empresa-endereco" class="form-control">
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="empresa-cidade">Cidade</label>
+                                <input type="text" id="empresa-cidade" class="form-control">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="empresa-estado">Estado</label>
+                                <select id="empresa-estado" class="form-control">
+                                    <option value="">Selecione</option>
+                                    <option value="AC">AC</option>
+                                    <option value="AL">AL</option>
+                                    <option value="AP">AP</option>
+                                    <option value="AM">AM</option>
+                                    <option value="BA">BA</option>
+                                    <option value="CE">CE</option>
+                                    <option value="DF">DF</option>
+                                    <option value="ES">ES</option>
+                                    <option value="GO">GO</option>
+                                    <option value="MA">MA</option>
+                                    <option value="MT">MT</option>
+                                    <option value="MS">MS</option>
+                                    <option value="MG">MG</option>
+                                    <option value="PA">PA</option>
+                                    <option value="PB">PB</option>
+                                    <option value="PR">PR</option>
+                                    <option value="PE">PE</option>
+                                    <option value="PI">PI</option>
+                                    <option value="RJ">RJ</option>
+                                    <option value="RN">RN</option>
+                                    <option value="RS">RS</option>
+                                    <option value="RO">RO</option>
+                                    <option value="RR">RR</option>
+                                    <option value="SC">SC</option>
+                                    <option value="SP">SP</option>
+                                    <option value="SE">SE</option>
+                                    <option value="TO">TO</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="empresa-cep">CEP</label>
+                                <input type="text" id="empresa-cep" class="form-control" placeholder="00000-000">
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="empresa-telefone">Telefone</label>
+                                <input type="text" id="empresa-telefone" class="form-control" placeholder="(00) 0000-0000">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="empresa-email">E-mail</label>
+                                <input type="email" id="empresa-email" class="form-control">
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="empresa-website">Website</label>
+                            <input type="url" id="empresa-website" class="form-control" placeholder="https://www.exemplo.com.br">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="empresa-logo">Logo da Empresa</label>
+                            <div class="file-upload">
+                                <input type="file" id="empresa-logo" accept="image/*">
+                                <div class="file-preview" id="logo-preview">
+                                    <img src="https://cdn-icons-png.flaticon.com/512/3682/3682323.png" alt="Logo da Empresa">
+                                </div>
+                                <button type="button" class="btn btn-outline" id="btn-select-logo">Selecionar Imagem</button>
+                            </div>
+                        </div>
+                        
+                        <div class="form-actions">
+                            <button type="button" class="btn btn-primary" id="btn-save-empresa">Salvar Informações</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Usuários -->
+        <div class="config-content" id="usuarios-content">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-header-actions">
+                        <h3>Gerenciamento de Usuários</h3>
+                        <button class="btn btn-primary" id="btn-novo-usuario">
+                            <i class="fas fa-user-plus"></i> Novo Usuário
+                        </button>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Nome</th>
+                                <th>E-mail</th>
+                                <th>Função</th>
+                                <th>Último Acesso</th>
+                                <th>Status</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Kauan Lauer</td>
+                                <td>admin@kauanlauer.com</td>
+                                <td>Administrador</td>
+                                <td>Agora</td>
+                                <td><span class="status active">Ativo</span></td>
+                                <td>
+                                    <button class="btn-icon edit" onclick="editarUsuario(1)">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                    <button class="btn-icon delete disabled">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Suporte Técnico</td>
+                                <td>suporte@kauanlauer.com</td>
+                                <td>Técnico</td>
+                                <td>17/05/2023 15:32</td>
+                                <td><span class="status active">Ativo</span></td>
+                                <td>
+                                    <button class="btn-icon edit" onclick="editarUsuario(2)">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                    <button class="btn-icon delete" onclick="confirmarExclusaoUsuario(2)">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Atendimento</td>
+                                <td>atendimento@kauanlauer.com</td>
+                                <td>Atendente</td>
+                                <td>22/05/2023 09:15</td>
+                                <td><span class="status inactive">Inativo</span></td>
+                                <td>
+                                    <button class="btn-icon edit" onclick="editarUsuario(3)">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                    <button class="btn-icon delete" onclick="confirmarExclusaoUsuario(3)">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Backup e Restauração -->
+        <div class="config-content" id="backup-content">
+            <div class="card">
+                <div class="card-header">
+                    <h3>Backup e Restauração</h3>
+                </div>
+                <div class="card-body">
+                    <div class="backup-section">
+                        <h4>Realizar Backup</h4>
+                        <p>Gere um backup completo do sistema para armazenamento seguro.</p>
+                        
+                        <div class="backup-options">
+                            <div class="checkbox-container">
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="backup-clientes" checked>
+                                    <label for="backup-clientes">Clientes</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="backup-servicos" checked>
+                                    <label for="backup-servicos">Serviços</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="backup-ordens" checked>
+                                    <label for="backup-ordens">Ordens de Serviço</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="backup-financeiro" checked>
+                                    <label for="backup-financeiro">Dados Financeiros</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="backup-config" checked>
+                                    <label for="backup-config">Configurações</label>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-actions">
+                            <button type="button" class="btn btn-primary" id="btn-gerar-backup">
+                                <i class="fas fa-download"></i> Gerar Backup
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="backup-section">
+                        <h4>Histórico de Backups</h4>
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Data e Hora</th>
+                                    <th>Tipo</th>
+                                    <th>Tamanho</th>
+                                    <th>Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>25/05/2023 09:34</td>
+                                    <td>Completo</td>
+                                    <td>2.4 MB</td>
+                                    <td>
+                                        <button class="btn-icon download">
+                                            <i class="fas fa-download"></i>
+                                        </button>
+                                        <button class="btn-icon restore">
+                                            <i class="fas fa-undo"></i>
+                                        </button>
+                                        <button class="btn-icon delete">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>18/05/2023 17:22</td>
+                                    <td>Parcial</td>
+                                    <td>1.7 MB</td>
+                                    <td>
+                                        <button class="btn-icon download">
+                                            <i class="fas fa-download"></i>
+                                        </button>
+                                        <button class="btn-icon restore">
+                                            <i class="fas fa-undo"></i>
+                                        </button>
+                                        <button class="btn-icon delete">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <div class="backup-section">
+                        <h4>Restaurar Backup</h4>
+                        <p>Faça upload de um arquivo de backup para restaurar os dados do sistema.</p>
+                        
+                        <div class="file-upload">
+                            <input type="file" id="restaurar-arquivo" accept=".zip,.json">
+                            <button type="button" class="btn btn-outline" id="btn-select-backup">Selecionar Arquivo</button>
+                        </div>
+                        
+                        <div class="form-actions">
+                            <button type="button" class="btn btn-warning" id="btn-restaurar-backup" disabled>
+                                <i class="fas fa-undo"></i> Restaurar Sistema
+                            </button>
+                        </div>
+                        
+                        <div class="alert alert-warning">
+                            <strong>Atenção!</strong> A restauração substituirá todos os dados atuais do sistema. Faça um backup antes de continuar.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Categorias -->
+        <div class="config-content" id="categorias-content">
+            <div class="card">
+                <div class="card-header">
+                    <h3>Categorias de Serviços</h3>
+                </div>
+                <div class="card-body">
+                    <div class="categorias-container">
+                        <div class="categorias-form">
+                            <div class="form-group">
+                                <label for="categoria-nome">Nova Categoria</label>
+                                <div class="input-action">
+                                    <input type="text" id="categoria-nome" class="form-control" placeholder="Nome da categoria">
+                                    <button type="button" class="btn btn-primary" id="btn-add-categoria">Adicionar</button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="categorias-list">
+                            <div class="categoria-item">
+                                <span>Formatação</span>
+                                <div class="categoria-actions">
+                                    <button class="btn-icon edit"><i class="fas fa-edit"></i></button>
+                                    <button class="btn-icon delete"><i class="fas fa-trash"></i></button>
+                                </div>
+                            </div>
+                            <div class="categoria-item">
+                                <span>Instalação Windows</span>
+                                <div class="categoria-actions">
+                                    <button class="btn-icon edit"><i class="fas fa-edit"></i></button>
+                                    <button class="btn-icon delete"><i class="fas fa-trash"></i></button>
+                                </div>
+                            </div>
+                            <div class="categoria-item">
+                                <span>Limpeza</span>
+                                <div class="categoria-actions">
+                                    <button class="btn-icon edit"><i class="fas fa-edit"></i></button>
+                                    <button class="btn-icon delete"><i class="fas fa-trash"></i></button>
+                                </div>
+                            </div>
+                            <div class="categoria-item">
+                                <span>Instalação Software</span>
+                                <div class="categoria-actions">
+                                    <button class="btn-icon edit"><i class="fas fa-edit"></i></button>
+                                    <button class="btn-icon delete"><i class="fas fa-trash"></i></button>
+                                </div>
+                            </div>
+                            <div class="categoria-item">
+                                <span>Criação Site</span>
+                                <div class="categoria-actions">
+                                    <button class="btn-icon edit"><i class="fas fa-edit"></i></button>
+                                    <button class="btn-icon delete"><i class="fas fa-trash"></i></button>
+                                </div>
+                            </div>
+                            <div class="categoria-item">
+                                <span>Criação Sistema</span>
+                                <div class="categoria-actions">
+                                    <button class="btn-icon edit"><i class="fas fa-edit"></i></button>
+                                    <button class="btn-icon delete"><i class="fas fa-trash"></i></button>
+                                </div>
+                            </div>
+                            <div class="categoria-item">
+                                <span>Manutenção</span>
+                                <div class="categoria-actions">
+                                    <button class="btn-icon edit"><i class="fas fa-edit"></i></button>
+                                    <button class="btn-icon delete"><i class="fas fa-trash"></i></button>
+                                </div>
+                            </div>
+                            <div class="categoria-item">
+                                <span>Outros</span>
+                                <div class="categoria-actions">
+                                    <button class="btn-icon edit"><i class="fas fa-edit"></i></button>
+                                    <button class="btn-icon delete"><i class="fas fa-trash"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-header">
+                    <h3>Categorias Financeiras</h3>
+                </div>
+                <div class="card-body">
+                    <div class="categorias-tabs">
+                        <div class="categoria-tab active" data-cat-tab="receitas">Receitas</div>
+                        <div class="categoria-tab" data-cat-tab="despesas">Despesas</div>
+                    </div>
+                    
+                    <div class="categorias-tab-content active" id="receitas-tab-content">
+                        <div class="categorias-form">
+                            <div class="form-group">
+                                <label for="receita-categoria-nome">Nova Categoria de Receita</label>
+                                <div class="input-action">
+                                    <input type="text" id="receita-categoria-nome" class="form-control" placeholder="Nome da categoria">
+                                    <button type="button" class="btn btn-primary" id="btn-add-categoria-receita">Adicionar</button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="categorias-list">
+                            <div class="categoria-item">
+                                <span>Serviço</span>
+                                <div class="categoria-actions">
+                                    <button class="btn-icon edit"><i class="fas fa-edit"></i></button>
+                                    <button class="btn-icon delete"><i class="fas fa-trash"></i></button>
+                                </div>
+                            </div>
+                            <div class="categoria-item">
+                                <span>Venda de Produto</span>
+                                <div class="categoria-actions">
+                                    <button class="btn-icon edit"><i class="fas fa-edit"></i></button>
+                                    <button class="btn-icon delete"><i class="fas fa-trash"></i></button>
+                                </div>
+                            </div>
+                            <div class="categoria-item">
+                                <span>Consultoria</span>
+                                <div class="categoria-actions">
+                                    <button class="btn-icon edit"><i class="fas fa-edit"></i></button>
+                                    <button class="btn-icon delete"><i class="fas fa-trash"></i></button>
+                                </div>
+                            </div>
+                            <div class="categoria-item">
+                                <span>Manutenção</span>
+                                <div class="categoria-actions">
+                                    <button class="btn-icon edit"><i class="fas fa-edit"></i></button>
+                                    <button class="btn-icon delete"><i class="fas fa-trash"></i></button>
+                                </div>
+                            </div>
+                            <div class="categoria-item">
+                                <span>Suporte</span>
+                                <div class="categoria-actions">
+                                    <button class="btn-icon edit"><i class="fas fa-edit"></i></button>
+                                    <button class="btn-icon delete"><i class="fas fa-trash"></i></button>
+                                </div>
+                            </div>
+                            <div class="categoria-item">
+                                <span>Desenvolvimento</span>
+                                <div class="categoria-actions">
+                                    <button class="btn-icon edit"><i class="fas fa-edit"></i></button>
+                                    <button class="btn-icon delete"><i class="fas fa-trash"></i></button>
+                                </div>
+                            </div>
+                            <div class="categoria-item">
+                                <span>Outros</span>
+                                <div class="categoria-actions">
+                                    <button class="btn-icon edit"><i class="fas fa-edit"></i></button>
+                                    <button class="btn-icon delete"><i class="fas fa-trash"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="categorias-tab-content" id="despesas-tab-content">
+                        <div class="categorias-form">
+                            <div class="form-group">
+                                <label for="despesa-categoria-nome">Nova Categoria de Despesa</label>
+                                <div class="input-action">
+                                    <input type="text" id="despesa-categoria-nome" class="form-control" placeholder="Nome da categoria">
+                                    <button type="button" class="btn btn-primary" id="btn-add-categoria-despesa">Adicionar</button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="categorias-list">
+                            <div class="categoria-item">
+                                <span>Material</span>
+                                <div class="categoria-actions">
+                                    <button class="btn-icon edit"><i class="fas fa-edit"></i></button>
+                                    <button class="btn-icon delete"><i class="fas fa-trash"></i></button>
+                                </div>
+                            </div>
+                            <div class="categoria-item">
+                                <span>Equipamento</span>
+                                <div class="categoria-actions">
+                                    <button class="btn-icon edit"><i class="fas fa-edit"></i></button>
+                                    <button class="btn-icon delete"><i class="fas fa-trash"></i></button>
+                                </div>
+                            </div>
+                            <div class="categoria-item">
+                                <span>Software</span>
+                                <div class="categoria-actions">
+                                    <button class="btn-icon edit"><i class="fas fa-edit"></i></button>
+                                    <button class="btn-icon delete"><i class="fas fa-trash"></i></button>
+                                </div>
+                            </div>
+                            <div class="categoria-item">
+                                <span>Aluguel</span>
+                                <div class="categoria-actions">
+                                    <button class="btn-icon edit"><i class="fas fa-edit"></i></button>
+                                    <button class="btn-icon delete"><i class="fas fa-trash"></i></button>
+                                </div>
+                            </div>
+                            <div class="categoria-item">
+                                <span>Energia</span>
+                                <div class="categoria-actions">
+                                    <button class="btn-icon edit"><i class="fas fa-edit"></i></button>
+                                    <button class="btn-icon delete"><i class="fas fa-trash"></i></button>
+                                </div>
+                            </div>
+                            <div class="categoria-item">
+                                <span>Internet</span>
+                                <div class="categoria-actions">
+                                    <button class="btn-icon edit"><i class="fas fa-edit"></i></button>
+                                    <button class="btn-icon delete"><i class="fas fa-trash"></i></button>
+                                </div>
+                            </div>
+                            <div class="categoria-item">
+                                <span>Telefone</span>
+                                <div class="categoria-actions">
+                                    <button class="btn-icon edit"><i class="fas fa-edit"></i></button>
+                                    <button class="btn-icon delete"><i class="fas fa-trash"></i></button>
+                                </div>
+                            </div>
+                            <div class="categoria-item">
+                                <span>Outros</span>
+                                <div class="categoria-actions">
+                                    <button class="btn-icon edit"><i class="fas fa-edit"></i></button>
+                                    <button class="btn-icon delete"><i class="fas fa-trash"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Modal de Usuário -->
+    <div class="modal" id="usuario-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="usuario-modal-title">Novo Usuário</h3>
+                <span class="modal-close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="usuario-form">
+                    <input type="hidden" id="usuario-id">
+                    
+                    <div class="form-group">
+                        <label for="usuario-nome">Nome *</label>
+                        <input type="text" id="usuario-nome" class="form-control" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="usuario-email">E-mail *</label>
+                        <input type="email" id="usuario-email" class="form-control" required>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="usuario-senha">Senha *</label>
+                            <input type="password" id="usuario-senha" class="form-control">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="usuario-confirmar-senha">Confirmar Senha *</label>
+                            <input type="password" id="usuario-confirmar-senha" class="form-control">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="usuario-funcao">Função *</label>
+                        <select id="usuario-funcao" class="form-control" required>
+                            <option value="">Selecione</option>
+                            <option value="Administrador">Administrador</option>
+                            <option value="Gerente">Gerente</option>
+                            <option value="Técnico">Técnico</option>
+                            <option value="Atendente">Atendente</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Permissões</label>
+                        <div class="checkbox-container">
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="perm-clientes" checked>
+                                <label for="perm-clientes">Clientes</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="perm-servicos" checked>
+                                <label for="perm-servicos">Serviços</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="perm-ordens" checked>
+                                <label for="perm-ordens">Ordens de Serviço</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="perm-financeiro">
+                                <label for="perm-financeiro">Financeiro</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="perm-relatorios">
+                                <label for="perm-relatorios">Relatórios</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="perm-configuracoes">
+                                <label for="perm-configuracoes">Configurações</label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="usuario-situacao">Situação</label>
+                        <select id="usuario-situacao" class="form-control">
+                            <option value="Ativo">Ativo</option>
+                            <option value="Inativo">Inativo</option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary modal-close">Cancelar</button>
+                <button class="btn btn-primary" id="btn-save-usuario">Salvar</button>
+            </div>
+        </div>
+    </div>
+    
+    <script src="./JS/Configuracoes.js"></script>
+</body>
+</html>
