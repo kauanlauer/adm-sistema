@@ -492,3 +492,17 @@ async function excluirServico(id) {
         hideSpinner();
     }
 }
+// Funções utilitárias
+function showSpinner() {
+    const spinnerOverlay = document.getElementById('spinner-overlay');
+    if (spinnerOverlay) {
+        spinnerOverlay.classList.add('active');
+    }
+}
+
+function hideSpinner() {
+    const spinnerOverlay = document.getElementById('spinner-overlay');
+    if (spinnerOverlay) {
+        spinnerOverlay.classList.remove('active');
+    }
+}
