@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KL - Clientes</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="./CSS/Cad_Clientes.css" rel="stylesheet">
+</head>
+<body>
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <h3>Kauan Lauer Tech</h3>
+        </div>
+        <div class="sidebar-menu">
+            <div class="menu-item" data-page="dashboard">
+                <i class="fas fa-tachometer-alt"></i>
+                <span>Dashboard</span>
+            </div>
+            <div class="menu-item active" data-page="clientes">
+                <i class="fas fa-users"></i>
+                <span>Clientes</span>
+            </div>
+            <div class="menu-item" data-page="servicos">
+                <i class="fas fa-cogs"></i>
+                <span>Serviços</span>
+            </div>
+            <div class="menu-item" data-page="ordens">
+                <i class="fas fa-clipboard-list"></i>
+                <span>Ordens de Serviço</span>
+            </div>
+            <div class="menu-item" data-page="garantias">
+                <i class="fas fa-shield-alt"></i>
+                <span>Garantias</span>
+            </div>
+            <div class="menu-item" data-page="financeiro">
+                <i class="fas fa-chart-line"></i>
+                <span>Financeiro</span>
+            </div>
+            <div class="menu-item" data-page="relatorios">
+                <i class="fas fa-file-alt"></i>
+                <span>Relatórios</span>
+            </div>
+            <div class="menu-item" data-page="configuracoes">
+                <i class="fas fa-cog"></i>
+                <span>Configurações</span>
+            </div>
+        </div>
+    </div>
+    
+    <div class="main-content">
+        <div class="top-bar">
+            <div class="mobile-toggle">
+                <i class="fas fa-bars"></i>
+            </div>
+            <h2>Clientes</h2>
+            <div class="user-info">
+                <img src="https://cdn-icons-png.flaticon.com/512/3682/3682323.png" alt="User">
+                <span>Kauan Lauer</span>
+            </div>
+        </div>
+        
+        <div id="alert-container"></div>
+        
+        <div class="page-header">
+            <h3>Gerenciamento de Clientes</h3>
+            <button class="btn btn-primary" id="btn-new-cliente">
+                <i class="fas fa-plus"></i> Novo Cliente
+            </button>
+        </div>
+        
+        <div class="search-container">
+            <input type="text" id="search-cliente" placeholder="Buscar por nome, CPF/CNPJ, email...">
+            <button class="btn-search" id="btn-search">
+                <i class="fas fa-search"></i>
+            </button>
+        </div>
+        
+        <div class="clients-table-container">
+            <div class="spinner" id="spinner"></div>
+            <table class="clients-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nome</th>
+                        <th>CPF/CNPJ</th>
+                        <th>Telefone</th>
+                        <th>Email</th>
+                        <th>Cidade/UF</th>
+                        <th>Situação</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody id="clientes-table-body">
+                    <!-- Dados serão carregados dinamicamente -->
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="pagination" id="pagination">
+            <!-- Paginação será gerada dinamicamente -->
+        </div>
+    </div>
+    
+    <!-- Modal de Cliente -->
+    <div class="modal" id="cliente-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modal-title">Novo Cliente</h3>
+                <span class="modal-close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="cliente-form">
+                    <input type="hidden" id="cliente-id">
+                    
+                    <div class="form-group">
+                        <label for="cliente-nome">Nome *</label>
+                        <input type="text" id="cliente-nome" class="form-control" required>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="cliente-cpf-cnpj">CPF/CNPJ *</label>
+                            <input type="text" id="cliente-cpf-cnpj" class="form-control" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="cliente-tipo">Tipo</label>
+                            <select id="cliente-tipo" class="form-control">
+                                <option value="Pessoa Física">Pessoa Física</option>
+                                <option value="Pessoa Jurídica">Pessoa Jurídica</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="cliente-telefone">Telefone *</label>
+                            <input type="text" id="cliente-telefone" class="form-control" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="cliente-email">Email</label>
+                            <input type="email" id="cliente-email" class="form-control">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="cliente-endereco">Endereço</label>
+                        <input type="text" id="cliente-endereco" class="form-control">
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="cliente-cidade">Cidade</label>
+                            <input type="text" id="cliente-cidade" class="form-control">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="cliente-estado">Estado</label>
+                            <select id="cliente-estado" class="form-control">
+                                <option value="">Selecione</option>
+                                <option value="AC">AC</option>
+                                <option value="AL">AL</option>
+                                <option value="AP">AP</option>
+                                <option value="AM">AM</option>
+                                <option value="BA">BA</option>
+                                <option value="CE">CE</option>
+                                <option value="DF">DF</option>
+                                <option value="ES">ES</option>
+                                <option value="GO">GO</option>
+                                <option value="MA">MA</option>
+                                <option value="MT">MT</option>
+                                <option value="MS">MS</option>
+                                <option value="MG">MG</option>
+                                <option value="PA">PA</option>
+                                <option value="PB">PB</option>
+                                <option value="PR">PR</option>
+                                <option value="PE">PE</option>
+                                <option value="PI">PI</option>
+                                <option value="RJ">RJ</option>
+                                <option value="RN">RN</option>
+                                <option value="RS">RS</option>
+                                <option value="RO">RO</option>
+                                <option value="RR">RR</option>
+                                <option value="SC">SC</option>
+                                <option value="SP">SP</option>
+                                <option value="SE">SE</option>
+                                <option value="TO">TO</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="cliente-cep">CEP</label>
+                            <input type="text" id="cliente-cep" class="form-control">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="cliente-observacoes">Observações</label>
+                        <textarea id="cliente-observacoes" class="form-control" rows="3"></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="cliente-situacao">Situação</label>
+                        <select id="cliente-situacao" class="form-control">
+                            <option value="Ativo">Ativo</option>
+                            <option value="Inativo">Inativo</option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" id="btn-cancel">Cancelar</button>
+                <button class="btn btn-primary" id="btn-save">Salvar</button>
+            </div>
+        </div>
+    </div>
+    <script src="./JS/Cad_Clientes.js"></script>
+</body>
+</html>

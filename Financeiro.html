@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KL - Financeiro</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="./CSS/common.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Spinner para carregamentos -->
+    <div class="spinner-overlay" id="spinner-overlay">
+        <div class="spinner"></div>
+    </div>
+    
+    <!-- Container de alertas -->
+    <div class="alert-container" id="alert-container"></div>
+    
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <h3>Kauan Lauer Tech</h3>
+        </div>
+        <div class="sidebar-menu">
+            <div class="menu-item" data-page="dashboard">
+                <i class="fas fa-tachometer-alt"></i>
+                <span>Dashboard</span>
+            </div>
+            <div class="menu-item" data-page="clientes">
+                <i class="fas fa-users"></i>
+                <span>Clientes</span>
+            </div>
+            <div class="menu-item" data-page="servicos">
+                <i class="fas fa-cogs"></i>
+                <span>Serviços</span>
+            </div>
+            <div class="menu-item" data-page="ordens">
+                <i class="fas fa-clipboard-list"></i>
+                <span>Ordens de Serviço</span>
+            </div>
+            <div class="menu-item" data-page="garantias">
+                <i class="fas fa-shield-alt"></i>
+                <span>Garantias</span>
+            </div>
+            <div class="menu-item active" data-page="financeiro">
+                <i class="fas fa-chart-line"></i>
+                <span>Financeiro</span>
+            </div>
+            <div class="menu-item" data-page="relatorios">
+                <i class="fas fa-file-alt"></i>
+                <span>Relatórios</span>
+            </div>
+            <div class="menu-item" data-page="configuracoes">
+                <i class="fas fa-cog"></i>
+                <span>Configurações</span>
+            </div>
+        </div>
+    </div>
+    
+    <div class="main-content">
+        <div class="top-bar">
+            <div class="mobile-toggle">
+                <i class="fas fa-bars"></i>
+            </div>
+            <h2 id="page-title">Financeiro</h2>
+            <div class="user-info">
+                <img src="https://cdn-icons-png.flaticon.com/512/3682/3682323.png" alt="User">
+                <span>Kauan Lauer</span>
+            </div>
+        </div>
+        
+        <div class="filter-container">
+            <div class="filter-item">
+                <label for="periodo">Período</label>
+                <select id="periodo" class="form-control">
+                    <option value="mes">Este Mês</option>
+                    <option value="trimestre">Este Trimestre</option>
+                    <option value="ano">Este Ano</option>
+                    <option value="personalizado">Personalizado</option>
+                </select>
+            </div>
+            
+            <div class="filter-item data-personalizada" style="display: none;">
+                <label for="data-inicio">Data Inicial</label>
+                <input type="date" id="data-inicio" class="form-control">
+            </div>
+            
+            <div class="filter-item data-personalizada" style="display: none;">
+                <label for="data-fim">Data Final</label>
+                <input type="date" id="data-fim" class="form-control">
+            </div>
+            
+            <div class="filter-item">
+                <label>&nbsp;</label>
+                <button id="btn-filtrar" class="btn btn-primary">Filtrar</button>
+            </div>
+        </div>
+        
+        <div class="financial-summary">
+            <div class="summary-card">
+                <div class="summary-title">RECEITAS</div>
+                <div class="summary-value" id="total-receitas">R$ 0,00</div>
+            </div>
+            
+            <div class="summary-card">
+                <div class="summary-title">DESPESAS</div>
+                <div class="summary-value" id="total-despesas">R$ 0,00</div>
+            </div>
+            
+            <div class="summary-card">
+                <div class="summary-title">SALDO</div>
+                <div class="summary-value" id="saldo-total">R$ 0,00</div>
+            </div>
+            
+            <div class="summary-card">
+                <div class="summary-title">PAGAMENTOS PENDENTES</div>
+                <div class="summary-value" id="total-pendentes">R$ 0,00</div>
+            </div>
+        </div>
+        
+        <div class="tabs">
+            <div class="tab active" data-tab="transacoes">Transações</div>
+            <div class="tab" data-tab="receitas">Receitas</div>
+            <div class="tab" data-tab="despesas">Despesas</div>
+        </div>
+        
+        <div class="tab-content active" id="transacoes-content">
+            <div class="page-header">
+                <h3>Todas as Transações</h3>
+                <button class="btn btn-primary" id="btn-new-transacao">
+                    <i class="fas fa-plus"></i> Nova Transação
+                </button>
+            </div>
+            
+            <div class="search-container">
+                <input type="text" id="search-transacao" placeholder="Buscar por descrição, categoria ou valor...">
+                <button class="btn-search" id="btn-search-transacao">
+                    <i class="fas fa-search"></i>
+                </button>
+            </div>
+            
+            <div class="card">
+                <div class="card-body">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Data</th>
+                                <th>Descrição</th>
+                                <th>Categoria</th>
+                                <th>Tipo</th>
+                                <th>Valor</th>
+                                <th>Status</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="transacoes-table">
+                            <tr>
+                                <td colspan="8" class="text-center">Carregando transações...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="pagination" id="transacoes-pagination"></div>
+            </div>
+        </div>
+        
+        <div class="tab-content" id="receitas-content">
+            <div class="page-header">
+                <h3>Receitas</h3>
+                <button class="btn btn-primary" id="btn-new-receita">
+                    <i class="fas fa-plus"></i> Nova Receita
+                </button>
+            </div>
+            
+            <div class="search-container">
+                <input type="text" id="search-receita" placeholder="Buscar receita...">
+                <button class="btn-search" id="btn-search-receita">
+                    <i class="fas fa-search"></i>
+                </button>
+            </div>
+            
+            <div class="card">
+                <div class="card-body">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Data</th>
+                                <th>Descrição</th>
+                                <th>Categoria</th>
+                                <th>Ordem de Serviço</th>
+                                <th>Valor</th>
+                                <th>Status</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="receitas-table">
+                            <tr>
+                                <td colspan="8" class="text-center">Carregando receitas...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="pagination" id="receitas-pagination"></div>
+            </div>
+        </div>
+        
+        <div class="tab-content" id="despesas-content">
+            <div class="page-header">
+                <h3>Despesas</h3>
+                <button class="btn btn-primary" id="btn-new-despesa">
+                    <i class="fas fa-plus"></i> Nova Despesa
+                </button>
+            </div>
+            
+            <div class="search-container">
+                <input type="text" id="search-despesa" placeholder="Buscar despesa...">
+                <button class="btn-search" id="btn-search-despesa">
+                    <i class="fas fa-search"></i>
+                </button>
+            </div>
+            
+            <div class="card">
+                <div class="card-body">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Data</th>
+                                <th>Descrição</th>
+                                <th>Categoria</th>
+                                <th>Valor</th>
+                                <th>Status</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="despesas-table">
+                            <tr>
+                                <td colspan="7" class="text-center">Carregando despesas...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="pagination" id="despesas-pagination"></div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Modal de Transação -->
+    <div class="modal" id="transacao-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="transacao-modal-title">Nova Transação</h3>
+                <span class="modal-close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="transacao-form">
+                    <input type="hidden" id="transacao-id">
+                    
+                    <div class="form-group">
+                        <label for="transacao-tipo">Tipo *</label>
+                        <select id="transacao-tipo" class="form-control" required>
+                            <option value="Receita">Receita</option>
+                            <option value="Despesa">Despesa</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="transacao-descricao">Descrição *</label>
+                        <input type="text" id="transacao-descricao" class="form-control" required>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="transacao-categoria">Categoria *</label>
+                            <select id="transacao-categoria" class="form-control" required>
+                                <option value="">Selecione</option>
+                                <!-- Opções dinâmicas baseadas no tipo -->
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="transacao-data">Data *</label>
+                            <input type="date" id="transacao-data" class="form-control" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group" id="ordem-servico-container">
+                        <label for="transacao-os">Ordem de Serviço</label>
+                        <select id="transacao-os" class="form-control">
+                            <option value="">Selecione (opcional)</option>
+                            <!-- Opções serão carregadas dinamicamente -->
+                        </select>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="transacao-valor">Valor (R$) *</label>
+                            <input type="number" id="transacao-valor" class="form-control" min="0" step="0.01" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="transacao-forma-pagamento">Forma de Pagamento</label>
+                            <select id="transacao-forma-pagamento" class="form-control">
+                                <option value="">Selecione</option>
+                                <option value="Dinheiro">Dinheiro</option>
+                                <option value="Cartão de Crédito">Cartão de Crédito</option>
+                                <option value="Cartão de Débito">Cartão de Débito</option>
+                                <option value="Pix">Pix</option>
+                                <option value="Transferência">Transferência</option>
+                                <option value="Boleto">Boleto</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="transacao-status">Status</label>
+                        <select id="transacao-status" class="form-control">
+                            <option value="Pendente">Pendente</option>
+                            <option value="Pago">Pago</option>
+                            <option value="Cancelado">Cancelado</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="transacao-observacoes">Observações</label>
+                        <textarea id="transacao-observacoes" class="form-control" rows="3"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary modal-close">Cancelar</button>
+                <button class="btn btn-primary" id="btn-save-transacao">Salvar</button>
+            </div>
+        </div>
+    </div>
+    
+    <script src="./JS/Financeiro.js"></script>
+</body>
+</html>

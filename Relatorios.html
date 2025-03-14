@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KL - Relatórios</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="./CSS/common.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Spinner para carregamentos -->
+    <div class="spinner-overlay" id="spinner-overlay">
+        <div class="spinner"></div>
+    </div>
+    
+    <!-- Container de alertas -->
+    <div class="alert-container" id="alert-container"></div>
+    
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <h3>Kauan Lauer Tech</h3>
+        </div>
+        <div class="sidebar-menu">
+            <div class="menu-item" data-page="dashboard">
+                <i class="fas fa-tachometer-alt"></i>
+                <span>Dashboard</span>
+            </div>
+            <div class="menu-item" data-page="clientes">
+                <i class="fas fa-users"></i>
+                <span>Clientes</span>
+            </div>
+            <div class="menu-item" data-page="servicos">
+                <i class="fas fa-cogs"></i>
+                <span>Serviços</span>
+            </div>
+            <div class="menu-item" data-page="ordens">
+                <i class="fas fa-clipboard-list"></i>
+                <span>Ordens de Serviço</span>
+            </div>
+            <div class="menu-item" data-page="garantias">
+                <i class="fas fa-shield-alt"></i>
+                <span>Garantias</span>
+            </div>
+            <div class="menu-item" data-page="financeiro">
+                <i class="fas fa-chart-line"></i>
+                <span>Financeiro</span>
+            </div>
+            <div class="menu-item active" data-page="relatorios">
+                <i class="fas fa-file-alt"></i>
+                <span>Relatórios</span>
+            </div>
+            <div class="menu-item" data-page="configuracoes">
+                <i class="fas fa-cog"></i>
+                <span>Configurações</span>
+            </div>
+        </div>
+    </div>
+    
+    <div class="main-content">
+        <div class="top-bar">
+            <div class="mobile-toggle">
+                <i class="fas fa-bars"></i>
+            </div>
+            <h2 id="page-title">Relatórios</h2>
+            <div class="user-info">
+                <img src="https://cdn-icons-png.flaticon.com/512/3682/3682323.png" alt="User">
+                <span>Kauan Lauer</span>
+            </div>
+        </div>
+        
+        <div class="filter-container">
+            <div class="filter-item">
+                <label for="relatorio-tipo">Tipo de Relatório</label>
+                <select id="relatorio-tipo" class="form-control">
+                    <option value="clientes">Relatório de Clientes</option>
+                    <option value="servicos">Relatório de Serviços</option>
+                    <option value="ordens">Relatório de Ordens de Serviço</option>
+                    <option value="financeiro">Relatório Financeiro</option>
+                    <option value="tecnico">Relatório de Desempenho Técnico</option>
+                </select>
+            </div>
+            
+            <div class="filter-item">
+                <label for="periodo">Período</label>
+                <select id="periodo" class="form-control">
+                    <option value="mes">Este Mês</option>
+                    <option value="trimestre">Este Trimestre</option>
+                    <option value="ano">Este Ano</option>
+                    <option value="personalizado">Personalizado</option>
+                </select>
+            </div>
+            
+            <div class="filter-item data-personalizada" style="display: none;">
+                <label for="data-inicio">Data Inicial</label>
+                <input type="date" id="data-inicio" class="form-control">
+            </div>
+            
+            <div class="filter-item data-personalizada" style="display: none;">
+                <label for="data-fim">Data Final</label>
+                <input type="date" id="data-fim" class="form-control">
+            </div>
+            
+            <div class="filter-item">
+                <label>&nbsp;</label>
+                <button id="btn-gerar-relatorio" class="btn btn-primary">Gerar Relatório</button>
+            </div>
+        </div>
+        
+        <!-- Opções específicas para cada tipo de relatório -->
+        <div class="relatorio-opcoes" id="opcoes-clientes">
+            <div class="opcoes-header">Opções de Relatório de Clientes</div>
+            <div class="opcoes-container">
+                <div class="opcao-item">
+                    <input type="checkbox" id="cliente-todos" checked>
+                    <label for="cliente-todos">Todos os Clientes</label>
+                </div>
+                <div class="opcao-item">
+                    <input type="checkbox" id="cliente-ativos">
+                    <label for="cliente-ativos">Apenas Ativos</label>
+                </div>
+                <div class="opcao-item">
+                    <input type="checkbox" id="cliente-inativos">
+                    <label for="cliente-inativos">Apenas Inativos</label>
+                </div>
+                <div class="opcao-item">
+                    <input type="checkbox" id="cliente-novos">
+                    <label for="cliente-novos">Novos no Período</label>
+                </div>
+            </div>
+        </div>
+        
+        <div class="relatorio-opcoes" id="opcoes-servicos" style="display: none;">
+            <div class="opcoes-header">Opções de Relatório de Serviços</div>
+            <div class="opcoes-container">
+                <div class="opcao-item">
+                    <input type="checkbox" id="servico-todos" checked>
+                    <label for="servico-todos">Todos os Serviços</label>
+                </div>
+                <div class="opcao-item">
+                    <input type="checkbox" id="servico-populares">
+                    <label for="servico-populares">Serviços Mais Populares</label>
+                </div>
+                <div class="opcao-item">
+                    <input type="checkbox" id="servico-rentaveis">
+                    <label for="servico-rentaveis">Serviços Mais Rentáveis</label>
+                </div>
+                <div class="opcao-item">
+                    <label for="servico-categoria">Categoria:</label>
+                    <select id="servico-categoria" class="form-control-sm">
+                        <option value="">Todas</option>
+                        <option value="Formatação">Formatação</option>
+                        <option value="Instalação Windows">Instalação Windows</option>
+                        <option value="Limpeza">Limpeza</option>
+                        <option value="Instalação Software">Instalação Software</option>
+                        <option value="Criação Site">Criação Site</option>
+                        <option value="Criação Sistema">Criação Sistema</option>
+                        <option value="Manutenção">Manutenção</option>
+                        <option value="Outros">Outros</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        
+        <div class="relatorio-opcoes" id="opcoes-ordens" style="display: none;">
+            <div class="opcoes-header">Opções de Relatório de Ordens de Serviço</div>
+            <div class="opcoes-container">
+                <div class="opcao-item">
+                    <input type="checkbox" id="ordem-todas" checked>
+                    <label for="ordem-todas">Todas as Ordens</label>
+                </div>
+                <div class="opcao-row">
+                    <div class="opcao-item">
+                        <input type="checkbox" id="ordem-abertas">
+                        <label for="ordem-abertas">Abertas</label>
+                    </div>
+                    <div class="opcao-item">
+                        <input type="checkbox" id="ordem-andamento">
+                        <label for="ordem-andamento">Em Andamento</label>
+                    </div>
+                    <div class="opcao-item">
+                        <input type="checkbox" id="ordem-concluidas">
+                        <label for="ordem-concluidas">Concluídas</label>
+                    </div>
+                    <div class="opcao-item">
+                        <input type="checkbox" id="ordem-canceladas">
+                        <label for="ordem-canceladas">Canceladas</label>
+                    </div>
+                </div>
+                <div class="opcao-item">
+                    <input type="checkbox" id="ordem-garantia">
+                    <label for="ordem-garantia">Em Garantia</label>
+                </div>
+                <div class="opcao-item">
+                    <label for="ordem-cliente">Cliente:</label>
+                    <select id="ordem-cliente" class="form-control-sm">
+                        <option value="">Todos</option>
+                        <!-- Opções serão carregadas dinamicamente -->
+                    </select>
+                </div>
+            </div>
+        </div>
+        
+        <div class="relatorio-opcoes" id="opcoes-financeiro" style="display: none;">
+            <div class="opcoes-header">Opções de Relatório Financeiro</div>
+            <div class="opcoes-container">
+                <div class="opcao-item">
+                    <input type="checkbox" id="financeiro-resumo" checked>
+                    <label for="financeiro-resumo">Resumo Financeiro</label>
+                </div>
+                <div class="opcao-item">
+                    <input type="checkbox" id="financeiro-receitas">
+                    <label for="financeiro-receitas">Receitas Detalhadas</label>
+                </div>
+                <div class="opcao-item">
+                    <input type="checkbox" id="financeiro-despesas">
+                    <label for="financeiro-despesas">Despesas Detalhadas</label>
+                </div>
+                <div class="opcao-item">
+                    <input type="checkbox" id="financeiro-fluxo">
+                    <label for="financeiro-fluxo">Fluxo de Caixa</label>
+                </div>
+                <div class="opcao-item">
+                    <input type="checkbox" id="financeiro-pendentes">
+                    <label for="financeiro-pendentes">Pagamentos Pendentes</label>
+                </div>
+                <div class="opcao-item">
+                    <label for="financeiro-agrupamento">Agrupar por:</label>
+                    <select id="financeiro-agrupamento" class="form-control-sm">
+                        <option value="dia">Dia</option>
+                        <option value="semana">Semana</option>
+                        <option value="mes" selected>Mês</option>
+                        <option value="categoria">Categoria</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        
+        <div class="relatorio-opcoes" id="opcoes-tecnico" style="display: none;">
+            <div class="opcoes-header">Opções de Relatório de Desempenho Técnico</div>
+            <div class="opcoes-container">
+                <div class="opcao-item">
+                    <input type="checkbox" id="tecnico-todos" checked>
+                    <label for="tecnico-todos">Todos os Técnicos</label>
+                </div>
+                <div class="opcao-item">
+                    <input type="checkbox" id="tecnico-produtividade">
+                    <label for="tecnico-produtividade">Produtividade</label>
+                </div>
+                <div class="opcao-item">
+                    <input type="checkbox" id="tecnico-tempo-medio">
+                    <label for="tecnico-tempo-medio">Tempo Médio de Atendimento</label>
+                </div>
+                <div class="opcao-item">
+                    <input type="checkbox" id="tecnico-faturamento">
+                    <label for="tecnico-faturamento">Faturamento por Técnico</label>
+                </div>
+                <div class="opcao-item">
+                    <label for="tecnico-individual">Técnico:</label>
+                    <select id="tecnico-individual" class="form-control-sm">
+                        <option value="">Todos</option>
+                        <option value="Kauan Lauer">Kauan Lauer</option>
+                        <!-- Mais técnicos podem ser adicionados aqui -->
+                    </select>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Área do Relatório -->
+        <div class="report-area">
+            <div class="report-header">
+                <div class="report-title" id="relatorio-titulo">Relatório</div>
+                <div class="report-actions">
+                    <button class="btn btn-outline" id="btn-imprimir">
+                        <i class="fas fa-print"></i> Imprimir
+                    </button>
+                    <button class="btn btn-outline" id="btn-exportar-pdf">
+                        <i class="fas fa-file-pdf"></i> PDF
+                    </button>
+                    <button class="btn btn-outline" id="btn-exportar-excel">
+                        <i class="fas fa-file-excel"></i> Excel
+                    </button>
+                </div>
+            </div>
+            
+            <div class="report-content" id="relatorio-conteudo">
+                <div class="report-placeholder">
+                    <div class="report-icon">
+                        <i class="fas fa-chart-bar"></i>
+                    </div>
+                    <div class="report-message">
+                        Selecione o tipo de relatório e clique em "Gerar Relatório" para visualizar os dados.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Modal de Gráfico -->
+    <div class="modal" id="grafico-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="grafico-modal-title">Visualização Gráfica</h3>
+                <span class="modal-close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="grafico-container">
+                    <canvas id="grafico-canvas" height="400"></canvas>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary modal-close">Fechar</button>
+                <button class="btn btn-primary" id="btn-exportar-grafico">Exportar</button>
+            </div>
+        </div>
+    </div>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <script src="./JS/Relatorios.js"></script>
+</body>
+</html>

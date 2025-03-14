@@ -1,0 +1,55 @@
+# Estrutura da Planilha Google
+
+## Aba Clientes
+- ID (gerado automaticamente)
+- Nome
+- CPF/CNPJ
+- Telefone
+- Email
+- Endereço
+- Cidade
+- Estado
+- Data Cadastro
+- Observações
+
+## Aba Serviços
+- ID (gerado automaticamente)
+- Nome do Serviço
+- Descrição
+- Categoria (Formatação, Instalação Windows, Limpeza, Instalação Software, Criação Site, etc.)
+- Preço Padrão
+- Tempo Estimado (horas)
+- Período de Garantia (dias)
+
+## Aba Ordens_Servico
+- ID_OS (gerado automaticamente)
+- ID_Cliente (referência à aba Clientes)
+- Data Abertura
+- Data Conclusão
+- Status (Aberto, Em Andamento, Concluído, Cancelado)
+- Descrição Problema
+- Solução Aplicada
+- ID_Serviço (referência à aba Serviços - pode ser múltiplos separados por vírgula)
+- Valor Total
+- Forma Pagamento
+- Status Pagamento (Pendente, Pago)
+- Técnico Responsável
+
+## Aba Garantias
+- ID_Garantia (gerado automaticamente)
+- ID_OS (referência à aba Ordens_Servico)
+- Data Início Garantia
+- Data Fim Garantia
+- Status (Ativa, Expirada, Acionada)
+- Observações
+
+## Aba Financeiro
+- ID_Transacao (gerado automaticamente)
+- Data
+- ID_OS (referência à aba Ordens_Servico, opcional)
+- Tipo (Receita, Despesa)
+- Categoria
+- Descrição
+- Valor
+- Forma Pagamento
+- Status (Pendente, Pago, Cancelado)

@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KL - Gerenciamento de Garantias</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="./CSS/common.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Spinner para carregamentos -->
+    <div class="spinner-overlay" id="spinner-overlay">
+        <div class="spinner"></div>
+    </div>
+    
+    <!-- Container de alertas -->
+    <div class="alert-container" id="alert-container"></div>
+    
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <h3>Kauan Lauer Tech</h3>
+        </div>
+        <div class="sidebar-menu">
+            <div class="menu-item" data-page="dashboard">
+                <i class="fas fa-tachometer-alt"></i>
+                <span>Dashboard</span>
+            </div>
+            <div class="menu-item" data-page="clientes">
+                <i class="fas fa-users"></i>
+                <span>Clientes</span>
+            </div>
+            <div class="menu-item" data-page="servicos">
+                <i class="fas fa-cogs"></i>
+                <span>Serviços</span>
+            </div>
+            <div class="menu-item" data-page="ordens">
+                <i class="fas fa-clipboard-list"></i>
+                <span>Ordens de Serviço</span>
+            </div>
+            <div class="menu-item active" data-page="garantias">
+                <i class="fas fa-shield-alt"></i>
+                <span>Garantias</span>
+            </div>
+            <div class="menu-item" data-page="financeiro">
+                <i class="fas fa-chart-line"></i>
+                <span>Financeiro</span>
+            </div>
+            <div class="menu-item" data-page="relatorios">
+                <i class="fas fa-file-alt"></i>
+                <span>Relatórios</span>
+            </div>
+            <div class="menu-item" data-page="configuracoes">
+                <i class="fas fa-cog"></i>
+                <span>Configurações</span>
+            </div>
+        </div>
+    </div>
+    
+    <div class="main-content">
+        <div class="top-bar">
+            <div class="mobile-toggle">
+                <i class="fas fa-bars"></i>
+            </div>
+            <h2 id="page-title">Garantias</h2>
+            <div class="user-info">
+                <img src="https://cdn-icons-png.flaticon.com/512/3682/3682323.png" alt="User">
+                <span>Kauan Lauer</span>
+            </div>
+        </div>
+        
+        <div class="page-header">
+            <h3>Gerenciamento de Garantias</h3>
+            <button class="btn btn-primary" id="btn-new-garantia">
+                <i class="fas fa-plus"></i> Nova Garantia
+            </button>
+        </div>
+        
+        <div class="tabs">
+            <div class="tab active" data-tab="ativas">Garantias Ativas</div>
+            <div class="tab" data-tab="vencidas">Garantias Vencidas</div>
+            <div class="tab" data-tab="todas">Todas as Garantias</div>
+        </div>
+        
+        <div class="search-container">
+            <input type="text" id="search-garantia" placeholder="Buscar por cliente, serviço ou número da OS...">
+            <button class="btn-search" id="btn-search-garantia">
+                <i class="fas fa-search"></i>
+            </button>
+        </div>
+        
+        <div class="tab-content active" id="ativas-content">
+            <div class="card">
+                <div class="card-body">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>OS Ref.</th>
+                                <th>Cliente</th>
+                                <th>Serviço</th>
+                                <th>Início</th>
+                                <th>Vencimento</th>
+                                <th>Status</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="garantias-ativas-table">
+                            <tr>
+                                <td colspan="8" class="text-center">Carregando garantias...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="pagination" id="garantias-ativas-pagination"></div>
+            </div>
+        </div>
+        
+        <div class="tab-content" id="vencidas-content">
+            <div class="card">
+                <div class="card-body">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>OS Ref.</th>
+                                <th>Cliente</th>
+                                <th>Serviço</th>
+                                <th>Início</th>
+                                <th>Vencimento</th>
+                                <th>Status</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="garantias-vencidas-table">
+                            <tr>
+                                <td colspan="8" class="text-center">Carregando garantias...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="pagination" id="garantias-vencidas-pagination"></div>
+            </div>
+        </div>
+        
+        <div class="tab-content" id="todas-content">
+            <div class="card">
+                <div class="card-body">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>OS Ref.</th>
+                                <th>Cliente</th>
+                                <th>Serviço</th>
+                                <th>Início</th>
+                                <th>Vencimento</th>
+                                <th>Status</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="garantias-todas-table">
+                            <tr>
+                                <td colspan="8" class="text-center">Carregando garantias...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="pagination" id="garantias-todas-pagination"></div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Modal de Garantia -->
+    <div class="modal" id="garantia-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="garantia-modal-title">Nova Garantia</h3>
+                <span class="modal-close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="garantia-form">
+                    <input type="hidden" id="garantia-id">
+                    
+                    <div class="form-group">
+                        <label for="garantia-os">Ordem de Serviço *</label>
+                        <select id="garantia-os" class="form-control" required>
+                            <option value="">Selecione a OS</option>
+                            <!-- Opções serão carregadas dinamicamente -->
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="garantia-cliente">Cliente</label>
+                        <input type="text" id="garantia-cliente" class="form-control" readonly>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="garantia-servico">Serviço com Garantia</label>
+                        <input type="text" id="garantia-servico" class="form-control" readonly>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="garantia-inicio">Data Início *</label>
+                            <input type="date" id="garantia-inicio" class="form-control" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="garantia-fim">Data Fim *</label>
+                            <input type="date" id="garantia-fim" class="form-control" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="garantia-status">Status</label>
+                        <select id="garantia-status" class="form-control">
+                            <option value="Ativa">Ativa</option>
+                            <option value="Expirada">Expirada</option>
+                            <option value="Acionada">Acionada</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="garantia-observacoes">Observações</label>
+                        <textarea id="garantia-observacoes" class="form-control" rows="3"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary modal-close">Cancelar</button>
+                <button class="btn btn-primary" id="btn-save-garantia">Salvar</button>
+            </div>
+        </div>
+    </div>
+    
+    <script src="./JS/Cad_Garantias.js"></script>
+</body>
+</html>
