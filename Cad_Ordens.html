@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KL - Ordens de Serviço</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="./CSS/common.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Spinner para carregamentos -->
+    <div class="spinner-overlay" id="spinner-overlay">
+        <div class="spinner"></div>
+    </div>
+    
+    <!-- Container de alertas -->
+    <div class="alert-container" id="alert-container"></div>
+    
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <h3>Kauan Lauer Tech</h3>
+        </div>
+        <div class="sidebar-menu">
+            <div class="menu-item" data-page="dashboard">
+                <i class="fas fa-tachometer-alt"></i>
+                <span>Dashboard</span>
+            </div>
+            <div class="menu-item" data-page="clientes">
+                <i class="fas fa-users"></i>
+                <span>Clientes</span>
+            </div>
+            <div class="menu-item" data-page="servicos">
+                <i class="fas fa-cogs"></i>
+                <span>Serviços</span>
+            </div>
+            <div class="menu-item active" data-page="ordens">
+                <i class="fas fa-clipboard-list"></i>
+                <span>Ordens de Serviço</span>
+            </div>
+            <div class="menu-item" data-page="garantias">
+                <i class="fas fa-shield-alt"></i>
+                <span>Garantias</span>
+            </div>
+            <div class="menu-item" data-page="financeiro">
+                <i class="fas fa-chart-line"></i>
+                <span>Financeiro</span>
+            </div>
+            <div class="menu-item" data-page="relatorios">
+                <i class="fas fa-file-alt"></i>
+                <span>Relatórios</span>
+            </div>
+            <div class="menu-item" data-page="configuracoes">
+                <i class="fas fa-cog"></i>
+                <span>Configurações</span>
+            </div>
+        </div>
+    </div>
+    
+    <div class="main-content">
+        <div class="top-bar">
+            <div class="mobile-toggle">
+                <i class="fas fa-bars"></i>
+            </div>
+            <h2 id="page-title">Ordens de Serviço</h2>
+            <div class="user-info">
+                <img src="https://cdn-icons-png.flaticon.com/512/3682/3682323.png" alt="User">
+                <span>Kauan Lauer</span>
+            </div>
+        </div>
+        
+        <div class="filter-container">
+            <div class="filter-item">
+                <label for="filtro-status">Status</label>
+                <select id="filtro-status" class="form-control">
+                    <option value="">Todos</option>
+                    <option value="Aberto">Aberto</option>
+                    <option value="Em Andamento">Em Andamento</option>
+                    <option value="Concluído">Concluído</option>
+                    <option value="Cancelado">Cancelado</option>
+                </select>
+            </div>
+            
+            <div class="filter-item">
+                <label for="filtro-cliente">Cliente</label>
+                <select id="filtro-cliente" class="form-control">
+                    <option value="">Todos</option>
+                    <!-- Será preenchido dinamicamente -->
+                </select>
+            </div>
+            
+            <div class="filter-item">
+                <label for="filtro-periodo">Período</label>
+                <select id="filtro-periodo" class="form-control">
+                    <option value="7dias">Últimos 7 dias</option>
+                    <option value="30dias">Últimos 30 dias</option>
+                    <option value="90dias">Últimos 90 dias</option>
+                    <option value="todos" selected>Todos</option>
+                </select>
+            </div>
+            
+            <div class="filter-item">
+                <label>&nbsp;</label>
+                <button id="btn-filtrar" class="btn btn-primary">Filtrar</button>
+            </div>
+        </div>
+        
+        <div class="page-header">
+            <h3>Gerenciamento de Ordens</h3>
+            <button class="btn btn-primary" id="btn-nova-ordem">
+                <i class="fas fa-plus"></i> Nova Ordem
+            </button>
+        </div>
+        
+        <div class="status-cards">
+            <div class="status-card">
+                <div class="status-icon pending">
+                    <i class="fas fa-file-alt"></i>
+                </div>
+                <div class="status-info">
+                    <div class="status-value" id="ordens-abertas">0</div>
+                    <div class="status-label">Abertas</div>
+                </div>
+            </div>
+            
+            <div class="status-card">
+                <div class="status-icon progress">
+                    <i class="fas fa-clock"></i>
+                </div>
+                <div class="status-info">
+                    <div class="status-value" id="ordens-andamento">0</div>
+                    <div class="status-label">Em Andamento</div>
+                </div>
+            </div>
+            
+            <div class="status-card">
+                <div class="status-icon active">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <div class="status-info">
+                    <div class="status-value" id="ordens-concluidas">0</div>
+                    <div class="status-label">Concluídas</div>
+                </div>
+            </div>
+            
+            <div class="status-card">
+                <div class="status-icon inactive">
+                    <i class="fas fa-times-circle"></i>
+                </div>
+                <div class="status-info">
+                    <div class="status-value" id="ordens-canceladas">0</div>
+                    <div class="status-label">Canceladas</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="search-container">
+            <input type="text" id="search-ordem" placeholder="Buscar por ID, cliente ou serviço...">
+            <button class="btn-search" id="btn-search-ordem">
+                <i class="fas fa-search"></i>
+            </button>
+        </div>
+        
+        <div class="card">
+            <div class="card-body">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Cliente</th>
+                            <th>Serviços</th>
+                            <th>Data Abertura</th>
+                            <th>Valor (R$)</th>
+                            <th>Status</th>
+                            <th>Técnico</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="ordens-table">
+                        <tr>
+                            <td colspan="8" class="text-center">Carregando ordens de serviço...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="pagination" id="ordens-pagination"></div>
+        </div>
+    </div>
+    
+    <!-- Modal de Ordem de Serviço -->
+    <div class="modal" id="ordem-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="ordem-modal-title">Nova Ordem de Serviço</h3>
+                <span class="modal-close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="ordem-form">
+                    <input type="hidden" id="ordem-id">
+                    
+                    <div class="form-group">
+                        <label for="ordem-cliente">Cliente *</label>
+                        <select id="ordem-cliente" class="form-control" required>
+                            <option value="">Selecione o cliente</option>
+                            <!-- Será preenchido dinamicamente -->
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Serviços *</label>
+                        <div id="servicos-container" class="checkbox-container">
+                            <!-- Será preenchido dinamicamente -->
+                            <div class="checkbox-loading">Carregando serviços...</div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="ordem-descricao-problema">Descrição do Problema</label>
+                        <textarea id="ordem-descricao-problema" class="form-control" rows="3"></textarea>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="ordem-data-abertura">Data de Abertura *</label>
+                            <input type="date" id="ordem-data-abertura" class="form-control" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="ordem-status">Status *</label>
+                            <select id="ordem-status" class="form-control" required>
+                                <option value="Aberto">Aberto</option>
+                                <option value="Em Andamento">Em Andamento</option>
+                                <option value="Concluído">Concluído</option>
+                                <option value="Cancelado">Cancelado</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group data-conclusao-container" style="display: none;">
+                        <label for="ordem-data-conclusao">Data de Conclusão</label>
+                        <input type="date" id="ordem-data-conclusao" class="form-control">
+                    </div>
+                    
+                    <div class="form-group solucao-container" style="display: none;">
+                        <label for="ordem-solucao">Solução Aplicada</label>
+                        <textarea id="ordem-solucao" class="form-control" rows="3"></textarea>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="ordem-valor-total">Valor Total (R$) *</label>
+                            <input type="number" id="ordem-valor-total" class="form-control" min="0" step="0.01" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="ordem-forma-pagamento">Forma de Pagamento</label>
+                            <select id="ordem-forma-pagamento" class="form-control">
+                                <option value="">Selecione</option>
+                                <option value="Dinheiro">Dinheiro</option>
+                                <option value="Cartão de Crédito">Cartão de Crédito</option>
+                                <option value="Cartão de Débito">Cartão de Débito</option>
+                                <option value="Pix">Pix</option>
+                                <option value="Transferência">Transferência</option>
+                                <option value="Boleto">Boleto</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="ordem-status-pagamento">Status do Pagamento</label>
+                            <select id="ordem-status-pagamento" class="form-control">
+                                <option value="Pendente">Pendente</option>
+                                <option value="Parcial">Parcial</option>
+                                <option value="Pago">Pago</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="ordem-tecnico">Técnico Responsável</label>
+                        <input type="text" id="ordem-tecnico" class="form-control">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary modal-close">Cancelar</button>
+                <button class="btn btn-primary" id="btn-save-ordem">Salvar</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Modal de Detalhes da Ordem -->
+    <div class="modal" id="detalhes-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="detalhes-modal-title">Detalhes da Ordem</h3>
+                <span class="modal-close">&times;</span>
+            </div>
+            <div class="modal-body" id="detalhes-content">
+                <!-- Será preenchido dinamicamente -->
+                <div class="loading-placeholder">Carregando detalhes da ordem...</div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary modal-close">Fechar</button>
+                <button class="btn btn-primary" id="btn-print-ordem">Imprimir</button>
+            </div>
+        </div>
+    </div>
+    
+    <script src="./JS/Cad_Ordens.js"></script>
+</body>
+</html>
